@@ -24,5 +24,3 @@ class TestError:
 
     def __str__(self):
         return '[%s: %s]' % (self.type, self.message)
-
-

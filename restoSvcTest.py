@@ -99,14 +99,14 @@ class RestoSvcTestClass(object):
     def InternalTestTelemax(self, i: int, c: int) -> None:
 
         for k in range(c):
-            print('%d : %d : %s:%s' % (i, k, self.telemaxHost, self.telemaxPort))
+            print('%d : %d : Test %s:%s' % (i, k, self.telemaxHost, self.telemaxPort))
             s = False
             try:
                 self.runs += 1
                 print('%d : %d : Connect' % (i, k))
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 s.connect((self.telemaxHost, self.telemaxPort))
-                s.settimeout(2)
+                s.settimeout(10)
                 # read the server Banner
                 data = s.recv(8).decode('cp850').strip('\r\n')
                 if data != '100 OK':
@@ -158,7 +158,9 @@ def main():
 
     test = RestoSvcTestClass(
         loops=args.loops,
-        threads=args.threads
+        threads=args.threads,
+        telemaxHost=args.TelemaxHost,
+        telemaxPort=args.TelemaxPort
     )
     if args.mode == 'Telemax':
         test.TestTelemax()

@@ -8,10 +8,10 @@ def BuildTelemax(x: int, c: int) -> str:
     """
     msg = '123456MAC:4c24e9870203PROT005170817100*Q:'
     msg += str(x + c + 1).zfill(6)
-    msg += '9138'
+    msg += '9103'
     msg += '0071'
     msg += '0093'
-    msg += '1   '
+    msg += '2   '
     msg += '0'
     # msg += 'xx'
     msg += '10020100^1*'
@@ -31,5 +31,3 @@ def ParseTelemaxAnswer(answer: str) -> (bool, str):
         msg = res.group(0)
         return False, msg
     return True, msg
-
-
