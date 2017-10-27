@@ -67,21 +67,26 @@ class RestoSvcTestClass(object):
         self.ShowResults()
 
     # ..................................................................................................................
-    @staticmethod
-    def InternalTestWebSocket(i: int, c: int) -> None:
+    def InternalTestWebSocket(self,i: int, c: int) -> None:
         url = 'http://192.168.100.223:8787/RPC:Resto:SetPointage'
         payload1 = '{Action:C,Staff:{Pwd:www},Tbl:{Tbl:5,Consos:[{PLU:1001},{PLU:1002,TotalBase:25.12,Quantity:12}]},Station:{Num:1}}'
-        payload2 = '{Action:C,Staff:{Pwd:www},Tbl:{Tbl:5,Consos:[{PLU:1001},{PLU:1002,TotalBase:25.12,Quantity:12}]},Station:{Num:1}}'
+        payload2 = '{Action:C,Staff:{Pwd:www},Tbl:{Tbl:8,Consos:[{PLU:1001},{PLU:1002,TotalBase:25.12,Quantity:12}]},Station:{Num:1}}'
 
         for k in range(c):
-            print('%d : %d : %s' % (i, k, url))
-            r = requests.get(url, params=payload1)
-            print('%d : %d : %s' % (i, k, r.status_code))
-            print(r.text)
-        r = requests.get(url, params=payload2)
-        print('%d : %d : %s' % (i, 0, r.status_code))
-        print(r.text)
-        pass
+            try:
+                self.runs += 1
+                print('%d : %d : %s' % (i, k, url))
+                r = requests.get(url, params=payload1)
+                print('%d : %d : %s' % (i, k, r.status_code))
+                print(r.text)
+                r = requests.get(url, params=payload2)
+                print('%d : %d : %s' % (i, 0, r.status_code))
+                print(r.text)
+                self.success += 1
+
+            except BaseException as e:
+                print('%d : %d : Unexpected error:' % (i, k), sys.exc_info()[0])
+                self.errors.append(TestError(e))
 
     # ..................................................................................................................
     def TestTelemax(self) -> None:
